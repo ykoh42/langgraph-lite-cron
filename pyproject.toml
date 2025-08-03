@@ -1,0 +1,42 @@
+[project]
+name = "langgraph-lite-cron"
+version = "0.0.1"
+description = "langgraph lite cron"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = [
+    "fastapi",
+]
+
+[project.packages]
+find = { where = ["src"] }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.4",
+    "ruff>=0.4.0",
+    "httpx",
+    "uvicorn",
+    "langgraph-sdk",
+    "pytest-asyncio"
+]
+
+[tool.uv.workspace]
+members = []
+
+[tool.ruff]
+lint.select = ["E", "F", "I"]
+lint.ignore = ["E501"]
+line-length = 88
+
+[tool.hatch.build]
+exclude = [
+    "tests/",
+    ".github/",
+    ".venv*/**",
+]
