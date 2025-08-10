@@ -71,7 +71,10 @@ async def search_crons(
 ) -> List[CronPublic]:
     """Search all active crons"""
 
-    assistant_id = await resolve_assistant_id(graph_id_or_assistant_id=query.assistant_id)
+    try:
+        assistant_id = await resolve_assistant_id(graph_id_or_assistant_id=query.assistant_id)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
 
     data_store = cast(LanggraphSQLAlchemyDataStore, scheduler.data_store)
 
