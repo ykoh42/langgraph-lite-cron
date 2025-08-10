@@ -1,15 +1,12 @@
 from datetime import datetime
-from typing import Literal
-
-from pydantic import BaseModel, Field
 from uuid import UUID
 
-from typing import Any
+from langgraph_sdk.schema import All, Context, MultitaskStrategy
+from pydantic import BaseModel, ConfigDict, Field
+from typing_extensions import Any, Literal, TypedDict
 
-All = Literal["*"]
 
-
-class Config(BaseModel):
+class Config(TypedDict, total=False):
     tags: list[str]
     recursion_limit: int
     configurable: dict[str, Any]
@@ -40,6 +37,10 @@ class CronCreate(BaseModel):
         None,
         description="The configuration for the assistant."
     )
+    context: Context | None = Field(
+        None,
+        description="Static context to add to the assistant.",
+    )
     webhook: str | None = Field(
         None,
         description="Webhook to call after LangGraph API call is done."
@@ -52,14 +53,14 @@ class CronCreate(BaseModel):
         None,
         description="Nodes to interrupt immediately after they get executed."
     )
-    multitask_strategy: str | None = Field(
+    multitask_strategy: MultitaskStrategy | None = Field(
         None,
         description="Multitask strategy to use. Must be one of 'reject', 'interrupt', 'rollback', or 'enqueue'."
     )
 
 
 class CronSearch(BaseModel):
-    assistant_id: str = Field(
+    assistant_id: str | None = Field(
         default=None,
         title="Assistant Id",
         description="The assistant ID or graph name to search for.",
@@ -103,10 +104,12 @@ class CronSearch(BaseModel):
 
 
 class CronPublic(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     cron_id: UUID
-    thread_id: UUID | None
-    end_time: str | None
+    thread_id: UUID | None = None
+    end_time: datetime | None = None
     schedule: str
-    created_at: str
-    updated_at: str
+    created_at: datetime
+    updated_at: datetime
     payload: dict
