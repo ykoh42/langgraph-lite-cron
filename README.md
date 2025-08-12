@@ -63,7 +63,10 @@ Update your `langgraph.json` to include the custom app:
     "image_distro": "wolfi",
     "http": {
         "app": "./src/agent/webapp.py:app"
-    }
+    },
+    "dockerfile_lines": [
+        "ENV UV_PRERELEASE=allow"
+    ]
 }
 ```
 

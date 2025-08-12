@@ -21,16 +21,24 @@ def get_now() -> datetime:
 
 async def resolve_assistant_id(graph_id_or_assistant_id: str | UUID) -> UUID:
     """Resolve the assistant ID from a graph ID or directly return the assistant ID if it's already in UUID format"""
+    client = get_client()
     if isinstance(graph_id_or_assistant_id, UUID):
-        return graph_id_or_assistant_id
+        try:
+            assistant = await client.assistants.get(assistant_id=graph_id_or_assistant_id)
+            return UUID(assistant["assistant_id"])
+        except Exception as e:
+            raise ValueError(f"Invalid assistant ID: {graph_id_or_assistant_id}") from e
 
-    assistants = await get_client().assistants.search(
-        graph_id=graph_id_or_assistant_id,
-        limit=1,
-    )
+    try:
+        assistants = await client.assistants.search(
+            graph_id=graph_id_or_assistant_id,
+            limit=1,
+        )
 
-    if not assistants:
-        raise ValueError(f"No assistant found for graph ID: {graph_id_or_assistant_id}")
+        if not assistants:
+            raise ValueError(f"No assistant found for graph ID: {graph_id_or_assistant_id}")
+    except Exception as e:
+        raise ValueError(f"Error resolving assistant ID for graph ID: {graph_id_or_assistant_id}") from e
 
     return UUID(assistants[0]["assistant_id"])
 
