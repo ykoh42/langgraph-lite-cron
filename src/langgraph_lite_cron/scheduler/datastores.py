@@ -20,8 +20,6 @@ class LanggraphSQLAlchemyDataStore(SQLAlchemyDataStore):
 
     def __attrs_post_init__(self) -> None:
         super().__attrs_post_init__()
-        # prefix = f"{self.schema}." if self.schema else ""
-        # self._t_cron = self._metadata.tables[prefix + "cron"]
 
     def get_table_definitions(self) -> MetaData:
         metadata = super().get_table_definitions()
