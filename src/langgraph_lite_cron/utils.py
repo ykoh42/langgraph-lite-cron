@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime
 from uuid import UUID
 from zoneinfo import ZoneInfo
 
@@ -16,7 +16,7 @@ def get_scheduler(request: Request) -> AsyncScheduler:
 
 
 def get_now() -> datetime:
-    return datetime.now(timezone.utc)  # Use UTC timezone
+    return datetime.now()
 
 
 async def resolve_assistant_id(graph_id_or_assistant_id: str | UUID) -> UUID:

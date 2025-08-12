@@ -1,5 +1,5 @@
 from contextlib import AsyncExitStack
-from datetime import datetime, timezone
+from datetime import datetime
 from logging import Logger
 from typing import Any
 from uuid import UUID
@@ -164,7 +164,7 @@ class LanggraphSQLAlchemyDataStore(SQLAlchemyDataStore):
 
         update_data = {
             'next_run_date': event.next_fire_time,
-            'updated_at': datetime.now(timezone.utc),
+            'updated_at': datetime.now(),
         }
 
         update = (
