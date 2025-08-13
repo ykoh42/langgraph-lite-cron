@@ -72,8 +72,23 @@ Update your `langgraph.json` to include the custom app:
 
 ### 4. Deploy
 
-Deploy using [Self-hosted Standalone Server](https://docs.langchain.com/langgraph-platform/deploy-standalone-server) with
-Kubernetes, Docker and Docker Compose.
+#### Option 1: In-memory mode (development)
+
+```sh
+langgraph dev
+```
+
+#### Option 2: Postgres + Redis mode (development)
+
+```sh
+langgraph up
+```
+
+#### Option 3: Self-hosted Standalone Server
+
+- Deploy using [Self-hosted Standalone Server](https://docs.langchain.com/langgraph-platform/deploy-standalone-server)
+  with
+  Kubernetes, Docker and Docker Compose.
 
 ### 5. Use Cron API
 
