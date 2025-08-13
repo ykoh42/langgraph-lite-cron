@@ -17,6 +17,12 @@
 pip install langgraph-lite-cron
 ```
 
+Or, if you are using `uv` (including pre-release versions):
+
+```sh
+uv add --prerelease allow langgraph-lite-cron
+```
+
 ### 2. Add Custom Routes
 
 Add cron routes to your FastAPI app (e.g., `./src/agent/webapp.py`):
