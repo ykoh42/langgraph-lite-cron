@@ -34,7 +34,7 @@ dev = [
     "ruff",
     "httpx",
     "uvicorn",
-    "pytest-asyncio"
+    "pytest-asyncio",
 ]
 
 [tool.hatch.build]

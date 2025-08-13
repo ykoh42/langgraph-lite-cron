@@ -38,8 +38,8 @@ class LanggraphSQLAlchemyDataStore(SQLAlchemyDataStore):
         if isinstance(self._engine, AsyncEngine):
             async with self._engine.connect() as aconn:
                 def _do_reflect(sync_conn):
-                    if 'cron' in self._metadata.tables:
-                        self._metadata.remove(self._metadata.tables['cron'])
+                    if "cron" in self._metadata.tables:
+                        self._metadata.remove(self._metadata.tables["cron"])
                     self._metadata.reflect(
                         bind=sync_conn,
                         schema=self.schema,
@@ -49,9 +49,9 @@ class LanggraphSQLAlchemyDataStore(SQLAlchemyDataStore):
                 await aconn.run_sync(_do_reflect)
         else:
             with self._engine.connect() as conn:
-                if 'cron' in self._metadata.tables:
-                    self._metadata.remove(self._metadata.tables['cron'])
-                self._metadata.reflect(bind=conn, schema=self.schema, only=['cron'])
+                if "cron" in self._metadata.tables:
+                    self._metadata.remove(self._metadata.tables["cron"])
+                self._metadata.reflect(bind=conn, schema=self.schema, only=["cron"])
 
         prefix = f"{self.schema}." if self.schema else ""
         self._t_cron = self._metadata.tables[prefix + "cron"]
@@ -62,7 +62,7 @@ class LanggraphSQLAlchemyDataStore(SQLAlchemyDataStore):
             is_async=True,
         )
 
-        logger.info("Langgraph Lite DataStore started with cron table sync")
+        logger.info("Langgraph SQL Alchemy DataStore started with cron table sync")
 
     async def get_crons(
         self,
@@ -134,17 +134,17 @@ class LanggraphSQLAlchemyDataStore(SQLAlchemyDataStore):
 
         # Prepare cron table data
         data = {
-            'cron_id': schedule.id,
-            'assistant_id': metadata.get('assistant_id'),
-            'thread_id': metadata.get('thread_id'),
-            'user_id': metadata.get('user_id'),
-            'payload': metadata.get('payload'),
-            'schedule': metadata.get('schedule'),
-            'next_run_date': event.next_fire_time,
-            'end_time': getattr(schedule.trigger, 'end_time'),
-            'created_at': datetime.now(),
-            'updated_at': datetime.now(),
-            'metadata': metadata.get('metadata'),
+            "cron_id": schedule.id,
+            "assistant_id": metadata.get("assistant_id"),
+            "thread_id": metadata.get("thread_id"),
+            "user_id": metadata.get("user_id"),
+            "payload": metadata.get("payload"),
+            "schedule": metadata.get("schedule"),
+            "next_run_date": event.next_fire_time,
+            "end_time": getattr(schedule.trigger, "end_time"),
+            "created_at": datetime.now(),
+            "updated_at": datetime.now(),
+            "metadata": metadata.get("metadata"),
         }
 
         # Remove None values
@@ -163,8 +163,8 @@ class LanggraphSQLAlchemyDataStore(SQLAlchemyDataStore):
         """Update existing schedule in cron table."""
 
         update_data = {
-            'next_run_date': event.next_fire_time,
-            'updated_at': datetime.now(),
+            "next_run_date": event.next_fire_time,
+            "updated_at": datetime.now(),
         }
 
         update = (

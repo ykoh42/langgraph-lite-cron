@@ -1,11 +1,12 @@
+import asyncio
 from datetime import datetime
 from uuid import UUID
-from zoneinfo import ZoneInfo
 
 from apscheduler import AsyncScheduler
 from apscheduler.triggers.cron import CronTrigger
 from fastapi import Request
 from langgraph_sdk import get_client
+from tzlocal import get_localzone
 
 from langgraph_lite_cron.scheduler.tasks import runs_create
 from langgraph_lite_cron.shcemas import CronCreate, CronPublic
@@ -54,7 +55,7 @@ async def create_cron_job(
     trigger = CronTrigger.from_crontab(
         expr=cron.schedule,
         end_time=cron.end_time,
-        timezone=ZoneInfo("UTC"),  # FIXME use local timezone
+        timezone=await asyncio.to_thread(get_localzone),
     )
 
     cron_id = await scheduler.add_schedule(

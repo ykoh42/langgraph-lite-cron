@@ -99,20 +99,20 @@ class LanggraphMemoryDataStore(MemoryDataStore):
         now = datetime.now()
         cron = Cron(
             cron_id=UUID(schedule.id),
-            assistant_id=metadata.get('assistant_id'),
-            thread_id=metadata.get('thread_id'),
-            user_id=metadata.get('user_id'),
-            payload=metadata.get('payload'),
-            schedule=metadata.get('schedule'),
+            assistant_id=metadata.get("assistant_id"),
+            thread_id=metadata.get("thread_id"),
+            user_id=metadata.get("user_id"),
+            payload=metadata.get("payload"),
+            schedule=metadata.get("schedule"),
             next_run_date=event.next_fire_time,
-            end_time=getattr(schedule.trigger, 'end_time'),
+            end_time=getattr(schedule.trigger, "end_time"),
             created_at=now,
             updated_at=now,
-            metadata=metadata.get('metadata'),
+            metadata=metadata,
         )
 
         # Store in memory
-        self._crons[cron.id] = cron
+        self._crons[cron.cron_id] = cron
         self._logger.info(f"Added schedule {schedule.id} to cron storage")
 
     async def _update_cron(self, event: ScheduleUpdated) -> None:
